@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="ee03a39c-aea3-4e31-a728-cf6f235cfaa6" name="Rafael Viktor@RAFAEL-VIKTOR 2026-03-28 22:49:42" runUser="RAFAEL-VIKTOR\Rafael Viktor" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-03-28T22:49:42.4606344-03:00" queuing="2026-03-28T22:49:42.4606347-03:00" start="2026-03-28T22:49:38.7286936-03:00" finish="2026-03-28T22:49:43.3778002-03:00" />
+  <TestSettings name="default" id="c69bbc5d-cc14-45df-b72e-a6a33910e7f8">
+    <Deployment runDeploymentRoot="Rafael_Viktor_RAFAEL-VIKTOR_2026-03-28_22_49_42" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="e2770fc9-bae9-4458-ae5b-4327ba4c8c44" testId="d6f0dbb2-f580-3dd5-b76d-5f528a3383b2" testName="TicketFlow.UnitTests.Domain.OrderTests.MarkAsFailed_DeveRegistrarMotivoEDataProcessamento" computerName="RAFAEL-VIKTOR" duration="00:00:00.0002060" startTime="2026-03-28T22:49:42.4475646-03:00" endTime="2026-03-28T22:49:42.4475648-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e2770fc9-bae9-4458-ae5b-4327ba4c8c44" />
+    <UnitTestResult executionId="c84d2b67-3b9d-42e4-8c72-a9c6b8d6c76c" testId="5a12fa50-994d-d96e-95bc-df2244e545f0" testName="TicketFlow.UnitTests.Application.OrderServiceTests.CreateAsync_QuandoChaveNova_DeveCriarPedidoEPublicarNaFila" computerName="RAFAEL-VIKTOR" duration="00:00:00.0081144" startTime="2026-03-28T22:49:42.5091766-03:00" endTime="2026-03-28T22:49:42.5091768-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c84d2b67-3b9d-42e4-8c72-a9c6b8d6c76c" />
+    <UnitTestResult executionId="7d78b064-a3c0-43bb-8ff9-50bc79319d92" testId="e09f4069-87fd-200a-1267-cf4e9cfb43cd" testName="TicketFlow.UnitTests.Domain.TicketTests.Reserve_DeveMarcarTicketComoReservado" computerName="RAFAEL-VIKTOR" duration="00:00:00.0018794" startTime="2026-03-28T22:49:42.4476200-03:00" endTime="2026-03-28T22:49:42.4476200-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7d78b064-a3c0-43bb-8ff9-50bc79319d92" />
+    <UnitTestResult executionId="8a7ad8f9-1c43-419a-9faa-5fe7a922f744" testId="95ddb659-0b34-f9aa-e002-48927c4d3c84" testName="TicketFlow.UnitTests.Domain.TicketTests.Reserve_QuandoJaReservado_DeveLancarExcecao" computerName="RAFAEL-VIKTOR" duration="00:00:00.0007760" startTime="2026-03-28T22:49:42.4477442-03:00" endTime="2026-03-28T22:49:42.4477442-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8a7ad8f9-1c43-419a-9faa-5fe7a922f744" />
+    <UnitTestResult executionId="22ac8f7e-bcb5-43ea-8074-bc6c20b1b939" testId="075a2f7f-cbe8-ca1f-7bba-050b7ad0fbd8" testName="TicketFlow.UnitTests.Concurrency.ConcurrencyTests.ProcessAsync_AposConcorrencia_BancoDeveEstarConsistente" computerName="RAFAEL-VIKTOR" duration="00:00:00.3823013" startTime="2026-03-28T22:49:43.3164320-03:00" endTime="2026-03-28T22:49:43.3164321-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="22ac8f7e-bcb5-43ea-8074-bc6c20b1b939" />
+    <UnitTestResult executionId="f6ccff49-b00b-44e2-b9a0-9d648c94ae78" testId="cb4b19ea-2d37-567e-03c5-41c751082ec0" testName="TicketFlow.UnitTests.Application.OrderServiceTests.GetByIdAsync_QuandoPedidoExiste_DeveRetornarPedido" computerName="RAFAEL-VIKTOR" duration="00:00:00.0028400" startTime="2026-03-28T22:49:42.4991415-03:00" endTime="2026-03-28T22:49:42.4991417-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f6ccff49-b00b-44e2-b9a0-9d648c94ae78" />
+    <UnitTestResult executionId="e6b40b20-ae1c-434d-8cc0-488be297e0c3" testId="7087a129-aa1a-bc45-2438-44b434b8f765" testName="TicketFlow.UnitTests.Application.OrderServiceTests.CreateAsync_QuandoChaveJaExiste_DeveRetornarPedidoExistenteSemCriarNovo" computerName="RAFAEL-VIKTOR" duration="00:00:00.0025482" startTime="2026-03-28T22:49:42.5117518-03:00" endTime="2026-03-28T22:49:42.5117520-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e6b40b20-ae1c-434d-8cc0-488be297e0c3" />
+    <UnitTestResult executionId="b45e6439-69e0-4962-bf05-8f2c83d85ed8" testId="f47ba375-f35d-8035-00db-2439fb3751d1" testName="TicketFlow.UnitTests.Domain.PaymentTests.Reject_DeveAlterarStatusParaRejected" computerName="RAFAEL-VIKTOR" duration="00:00:00.9371402" startTime="2026-03-28T22:49:42.4345017-03:00" endTime="2026-03-28T22:49:42.4345018-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b45e6439-69e0-4962-bf05-8f2c83d85ed8" />
+    <UnitTestResult executionId="32ba7f25-2710-4e42-8c59-bd936c79acdc" testId="2bb9b0f2-75d4-3d0e-34cc-0625fcc4f6de" testName="TicketFlow.UnitTests.Application.OrderServiceTests.CreateAsync_QuandoTicketNaoExiste_DeveLancarExcecao" computerName="RAFAEL-VIKTOR" duration="00:00:01.0027626" startTime="2026-03-28T22:49:42.4948274-03:00" endTime="2026-03-28T22:49:42.4948277-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32ba7f25-2710-4e42-8c59-bd936c79acdc" />
+    <UnitTestResult executionId="c060bcbc-b7ea-465c-81e6-9eb5833f04b2" testId="3c950a61-d33c-fb46-e22f-c930f57107f7" testName="TicketFlow.UnitTests.Domain.OrderTests.NovoPedido_DeveIniciarComStatusPending" computerName="RAFAEL-VIKTOR" duration="00:00:00.0004547" startTime="2026-03-28T22:49:42.4354419-03:00" endTime="2026-03-28T22:49:42.4354419-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c060bcbc-b7ea-465c-81e6-9eb5833f04b2" />
+    <UnitTestResult executionId="058d20c5-b4e8-4776-a46b-5a5668060721" testId="134827ec-bc59-3923-6fd0-f0c0baccf888" testName="TicketFlow.UnitTests.Application.OrderServiceTests.GetByIdAsync_QuandoPedidoNaoExiste_DeveRetornarNull" computerName="RAFAEL-VIKTOR" duration="00:00:00.0017287" startTime="2026-03-28T22:49:42.5010432-03:00" endTime="2026-03-28T22:49:42.5010435-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="058d20c5-b4e8-4776-a46b-5a5668060721" />
+    <UnitTestResult executionId="046400ff-8a79-47b2-8377-529a56fab476" testId="9c419667-c7fb-58b6-a608-d82eb91a6d8e" testName="TicketFlow.UnitTests.Domain.PaymentTests.NovoPagamento_DeveIniciarComStatusPending" computerName="RAFAEL-VIKTOR" duration="00:00:00.0001714" startTime="2026-03-28T22:49:42.4353248-03:00" endTime="2026-03-28T22:49:42.4353248-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="046400ff-8a79-47b2-8377-529a56fab476" />
+    <UnitTestResult executionId="27f68e7d-294b-4f1a-b0d4-61f0d2839637" testId="6c1eee50-940a-17ff-a0df-4c59f1bf612c" testName="TicketFlow.UnitTests.Domain.OrderTests.MarkAsConfirmed_DeveRegistrarDataProcessamento" computerName="RAFAEL-VIKTOR" duration="00:00:00.0011920" startTime="2026-03-28T22:49:42.4473780-03:00" endTime="2026-03-28T22:49:42.4473782-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="27f68e7d-294b-4f1a-b0d4-61f0d2839637" />
+    <UnitTestResult executionId="77164316-3e2f-4547-98b2-da71073ce930" testId="f89c2f32-c218-d4ac-5fec-60f7e8782805" testName="TicketFlow.UnitTests.Domain.OrderTests.MarkAsProcessing_DeveAlterarStatusParaProcessing" computerName="RAFAEL-VIKTOR" duration="00:00:00.9372489" startTime="2026-03-28T22:49:42.4326072-03:00" endTime="2026-03-28T22:49:42.4326220-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="77164316-3e2f-4547-98b2-da71073ce930" />
+    <UnitTestResult executionId="220461a0-bbfa-41d6-8b2e-d81ec3c0f4f9" testId="8d0b36bc-1df1-0068-cd32-4cc79ad5408c" testName="TicketFlow.UnitTests.Domain.TicketTests.Release_DeveLibertarTicketReservado" computerName="RAFAEL-VIKTOR" duration="00:00:00.0002023" startTime="2026-03-28T22:49:42.4476822-03:00" endTime="2026-03-28T22:49:42.4476823-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="220461a0-bbfa-41d6-8b2e-d81ec3c0f4f9" />
+    <UnitTestResult executionId="360b1be9-e3ab-44d4-8cad-f1a714b8f577" testId="466d893b-ae91-b50b-190c-a1497937886f" testName="TicketFlow.UnitTests.Domain.PaymentTests.Approve_DeveAlterarStatusParaApproved" computerName="RAFAEL-VIKTOR" duration="00:00:00.0000965" startTime="2026-03-28T22:49:42.4353981-03:00" endTime="2026-03-28T22:49:42.4353982-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="360b1be9-e3ab-44d4-8cad-f1a714b8f577" />
+    <UnitTestResult executionId="cd8f6ffb-b894-45e1-a11a-9a5d0207a5b1" testId="f7ede2c2-dbd7-3c41-c000-9c9042d15d94" testName="TicketFlow.UnitTests.Concurrency.ConcurrencyTests.ProcessAsync_QuandoMultiplosPedidosParaMesmoTicket_ApenasUmDeveSerConfirmado" computerName="RAFAEL-VIKTOR" duration="00:00:00.0090536" startTime="2026-03-28T22:49:43.3255615-03:00" endTime="2026-03-28T22:49:43.3255617-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cd8f6ffb-b894-45e1-a11a-9a5d0207a5b1" />
+    <UnitTestResult executionId="111d5101-d4d6-41c7-ab6b-48b84f1355b7" testId="cedebb23-5b8e-8867-1b5b-9738bb242526" testName="TicketFlow.UnitTests.Domain.TicketTests.NovoTicket_DeveEstarDisponivelPorPadrao" computerName="RAFAEL-VIKTOR" duration="00:00:00.9463892" startTime="2026-03-28T22:49:42.4389214-03:00" endTime="2026-03-28T22:49:42.4389216-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="111d5101-d4d6-41c7-ab6b-48b84f1355b7" />
+    <UnitTestResult executionId="fe93db69-99cb-4dd8-897d-5c4189fc6258" testId="7eaa6647-195e-6d24-6cf2-14b3548e8f1f" testName="TicketFlow.UnitTests.Domain.OrderTests.IdempotencyKey_DeveSerArmazenadoCorretamente" computerName="RAFAEL-VIKTOR" duration="00:00:00.0060924" startTime="2026-03-28T22:49:42.4390673-03:00" endTime="2026-03-28T22:49:42.4390673-03:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fe93db69-99cb-4dd8-897d-5c4189fc6258" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="TicketFlow.UnitTests.Application.OrderServiceTests.CreateAsync_QuandoChaveJaExiste_DeveRetornarPedidoExistenteSemCriarNovo" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="7087a129-aa1a-bc45-2438-44b434b8f765">
+      <Execution id="e6b40b20-ae1c-434d-8cc0-488be297e0c3" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Application.OrderServiceTests" name="CreateAsync_QuandoChaveJaExiste_DeveRetornarPedidoExistenteSemCriarNovo" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.OrderTests.NovoPedido_DeveIniciarComStatusPending" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="3c950a61-d33c-fb46-e22f-c930f57107f7">
+      <Execution id="c060bcbc-b7ea-465c-81e6-9eb5833f04b2" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.OrderTests" name="NovoPedido_DeveIniciarComStatusPending" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Concurrency.ConcurrencyTests.ProcessAsync_AposConcorrencia_BancoDeveEstarConsistente" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="075a2f7f-cbe8-ca1f-7bba-050b7ad0fbd8">
+      <Execution id="22ac8f7e-bcb5-43ea-8074-bc6c20b1b939" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Concurrency.ConcurrencyTests" name="ProcessAsync_AposConcorrencia_BancoDeveEstarConsistente" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Application.OrderServiceTests.CreateAsync_QuandoTicketNaoExiste_DeveLancarExcecao" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="2bb9b0f2-75d4-3d0e-34cc-0625fcc4f6de">
+      <Execution id="32ba7f25-2710-4e42-8c59-bd936c79acdc" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Application.OrderServiceTests" name="CreateAsync_QuandoTicketNaoExiste_DeveLancarExcecao" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Application.OrderServiceTests.GetByIdAsync_QuandoPedidoExiste_DeveRetornarPedido" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="cb4b19ea-2d37-567e-03c5-41c751082ec0">
+      <Execution id="f6ccff49-b00b-44e2-b9a0-9d648c94ae78" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Application.OrderServiceTests" name="GetByIdAsync_QuandoPedidoExiste_DeveRetornarPedido" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.PaymentTests.NovoPagamento_DeveIniciarComStatusPending" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="9c419667-c7fb-58b6-a608-d82eb91a6d8e">
+      <Execution id="046400ff-8a79-47b2-8377-529a56fab476" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.PaymentTests" name="NovoPagamento_DeveIniciarComStatusPending" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Application.OrderServiceTests.GetByIdAsync_QuandoPedidoNaoExiste_DeveRetornarNull" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="134827ec-bc59-3923-6fd0-f0c0baccf888">
+      <Execution id="058d20c5-b4e8-4776-a46b-5a5668060721" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Application.OrderServiceTests" name="GetByIdAsync_QuandoPedidoNaoExiste_DeveRetornarNull" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.OrderTests.IdempotencyKey_DeveSerArmazenadoCorretamente" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="7eaa6647-195e-6d24-6cf2-14b3548e8f1f">
+      <Execution id="fe93db69-99cb-4dd8-897d-5c4189fc6258" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.OrderTests" name="IdempotencyKey_DeveSerArmazenadoCorretamente" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.TicketTests.Reserve_DeveMarcarTicketComoReservado" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="e09f4069-87fd-200a-1267-cf4e9cfb43cd">
+      <Execution id="7d78b064-a3c0-43bb-8ff9-50bc79319d92" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.TicketTests" name="Reserve_DeveMarcarTicketComoReservado" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.TicketTests.Reserve_QuandoJaReservado_DeveLancarExcecao" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="95ddb659-0b34-f9aa-e002-48927c4d3c84">
+      <Execution id="8a7ad8f9-1c43-419a-9faa-5fe7a922f744" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.TicketTests" name="Reserve_QuandoJaReservado_DeveLancarExcecao" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.OrderTests.MarkAsConfirmed_DeveRegistrarDataProcessamento" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="6c1eee50-940a-17ff-a0df-4c59f1bf612c">
+      <Execution id="27f68e7d-294b-4f1a-b0d4-61f0d2839637" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.OrderTests" name="MarkAsConfirmed_DeveRegistrarDataProcessamento" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.OrderTests.MarkAsProcessing_DeveAlterarStatusParaProcessing" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="f89c2f32-c218-d4ac-5fec-60f7e8782805">
+      <Execution id="77164316-3e2f-4547-98b2-da71073ce930" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.OrderTests" name="MarkAsProcessing_DeveAlterarStatusParaProcessing" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Application.OrderServiceTests.CreateAsync_QuandoChaveNova_DeveCriarPedidoEPublicarNaFila" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="5a12fa50-994d-d96e-95bc-df2244e545f0">
+      <Execution id="c84d2b67-3b9d-42e4-8c72-a9c6b8d6c76c" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Application.OrderServiceTests" name="CreateAsync_QuandoChaveNova_DeveCriarPedidoEPublicarNaFila" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.TicketTests.Release_DeveLibertarTicketReservado" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="8d0b36bc-1df1-0068-cd32-4cc79ad5408c">
+      <Execution id="220461a0-bbfa-41d6-8b2e-d81ec3c0f4f9" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.TicketTests" name="Release_DeveLibertarTicketReservado" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Concurrency.ConcurrencyTests.ProcessAsync_QuandoMultiplosPedidosParaMesmoTicket_ApenasUmDeveSerConfirmado" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="f7ede2c2-dbd7-3c41-c000-9c9042d15d94">
+      <Execution id="cd8f6ffb-b894-45e1-a11a-9a5d0207a5b1" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Concurrency.ConcurrencyTests" name="ProcessAsync_QuandoMultiplosPedidosParaMesmoTicket_ApenasUmDeveSerConfirmado" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.OrderTests.MarkAsFailed_DeveRegistrarMotivoEDataProcessamento" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="d6f0dbb2-f580-3dd5-b76d-5f528a3383b2">
+      <Execution id="e2770fc9-bae9-4458-ae5b-4327ba4c8c44" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.OrderTests" name="MarkAsFailed_DeveRegistrarMotivoEDataProcessamento" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.TicketTests.NovoTicket_DeveEstarDisponivelPorPadrao" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="cedebb23-5b8e-8867-1b5b-9738bb242526">
+      <Execution id="111d5101-d4d6-41c7-ab6b-48b84f1355b7" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.TicketTests" name="NovoTicket_DeveEstarDisponivelPorPadrao" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.PaymentTests.Approve_DeveAlterarStatusParaApproved" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="466d893b-ae91-b50b-190c-a1497937886f">
+      <Execution id="360b1be9-e3ab-44d4-8cad-f1a714b8f577" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.PaymentTests" name="Approve_DeveAlterarStatusParaApproved" />
+    </UnitTest>
+    <UnitTest name="TicketFlow.UnitTests.Domain.PaymentTests.Reject_DeveAlterarStatusParaRejected" storage="d:\csharpprojects\ticketflow\tests\ticketflow.unittests\bin\debug\net8.0\ticketflow.unittests.dll" id="f47ba375-f35d-8035-00db-2439fb3751d1">
+      <Execution id="b45e6439-69e0-4962-bf05-8f2c83d85ed8" />
+      <TestMethod codeBase="D:\CSharpProjects\TicketFlow\tests\TicketFlow.UnitTests\bin\Debug\net8.0\TicketFlow.UnitTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="TicketFlow.UnitTests.Domain.PaymentTests" name="Reject_DeveAlterarStatusParaRejected" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d6f0dbb2-f580-3dd5-b76d-5f528a3383b2" executionId="e2770fc9-bae9-4458-ae5b-4327ba4c8c44" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5a12fa50-994d-d96e-95bc-df2244e545f0" executionId="c84d2b67-3b9d-42e4-8c72-a9c6b8d6c76c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e09f4069-87fd-200a-1267-cf4e9cfb43cd" executionId="7d78b064-a3c0-43bb-8ff9-50bc79319d92" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="95ddb659-0b34-f9aa-e002-48927c4d3c84" executionId="8a7ad8f9-1c43-419a-9faa-5fe7a922f744" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="075a2f7f-cbe8-ca1f-7bba-050b7ad0fbd8" executionId="22ac8f7e-bcb5-43ea-8074-bc6c20b1b939" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cb4b19ea-2d37-567e-03c5-41c751082ec0" executionId="f6ccff49-b00b-44e2-b9a0-9d648c94ae78" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7087a129-aa1a-bc45-2438-44b434b8f765" executionId="e6b40b20-ae1c-434d-8cc0-488be297e0c3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f47ba375-f35d-8035-00db-2439fb3751d1" executionId="b45e6439-69e0-4962-bf05-8f2c83d85ed8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2bb9b0f2-75d4-3d0e-34cc-0625fcc4f6de" executionId="32ba7f25-2710-4e42-8c59-bd936c79acdc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c950a61-d33c-fb46-e22f-c930f57107f7" executionId="c060bcbc-b7ea-465c-81e6-9eb5833f04b2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="134827ec-bc59-3923-6fd0-f0c0baccf888" executionId="058d20c5-b4e8-4776-a46b-5a5668060721" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9c419667-c7fb-58b6-a608-d82eb91a6d8e" executionId="046400ff-8a79-47b2-8377-529a56fab476" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6c1eee50-940a-17ff-a0df-4c59f1bf612c" executionId="27f68e7d-294b-4f1a-b0d4-61f0d2839637" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f89c2f32-c218-d4ac-5fec-60f7e8782805" executionId="77164316-3e2f-4547-98b2-da71073ce930" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8d0b36bc-1df1-0068-cd32-4cc79ad5408c" executionId="220461a0-bbfa-41d6-8b2e-d81ec3c0f4f9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="466d893b-ae91-b50b-190c-a1497937886f" executionId="360b1be9-e3ab-44d4-8cad-f1a714b8f577" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7ede2c2-dbd7-3c41-c000-9c9042d15d94" executionId="cd8f6ffb-b894-45e1-a11a-9a5d0207a5b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cedebb23-5b8e-8867-1b5b-9738bb242526" executionId="111d5101-d4d6-41c7-ab6b-48b84f1355b7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7eaa6647-195e-6d24-6cf2-14b3548e8f1f" executionId="fe93db69-99cb-4dd8-897d-5c4189fc6258" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="19" executed="19" passed="19" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.7+8f2703126a (64-bit .NET 8.0.25)&#xD;
+[xUnit.net 00:00:02.35]   Discovering: TicketFlow.UnitTests&#xD;
+[xUnit.net 00:00:02.38]   Discovered:  TicketFlow.UnitTests&#xD;
+[xUnit.net 00:00:02.39]   Starting:    TicketFlow.UnitTests&#xD;
+[xUnit.net 00:00:04.26]   Finished:    TicketFlow.UnitTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

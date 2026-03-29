@@ -1,0 +1,37 @@
+# Build
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Publicação
+publish/
+*.pubxml
+*.pubxml.user
+
+# Logs
+*.log
+logs/
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Ambiente local — nunca commitar segredos
+appsettings.Local.json
+appsettings.*.local.json
+
+# Docker volumes locais
+postgres_data/
