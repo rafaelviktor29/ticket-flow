@@ -32,6 +32,9 @@ logs/
 # Ambiente local — nunca commitar segredos
 appsettings.Local.json
 appsettings.*.local.json
+appsettings.Development.json
+appsettings*Development.json
+src/TicketFlow.API/appsettings.Development.json
 
 # Docker volumes locais
 postgres_data/
