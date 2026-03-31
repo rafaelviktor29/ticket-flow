@@ -33,7 +33,7 @@ logs/
 appsettings.Local.json
 appsettings.*.local.json
 appsettings.Development.json
-appsettings*Development.json
+**Development.json
 src/TicketFlow.API/appsettings.Development.json
 
 # Docker volumes locais

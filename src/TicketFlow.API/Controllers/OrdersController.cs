@@ -16,8 +16,8 @@ public class OrdersController : ControllerBase
     }
 
     /// <summary>
-    /// Cria um pedido e o enfileira para processamento assíncrono.
-    /// Retorna 202 imediatamente — consulte GET /orders/{id} para acompanhar o status.
+    /// Creates an order and enqueues it for asynchronous processing.
+    /// Returns 202 Accepted immediately — use GET /orders/{id} to track status.
     /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status202Accepted)]
@@ -30,13 +30,12 @@ public class OrdersController : ControllerBase
     }
 
     /// <summary>
-    /// Consulta o status de um pedido.
-    /// Status possíveis: Pending → Processing → Confirmed ou Failed.
+    /// Retrieves the status of an order.
+    /// Possible statuses: Pending → Processing → Confirmed or Failed.
     /// </summary>
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-
     public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
     {
         var order = await _orderService.GetByIdAsync(id, ct);

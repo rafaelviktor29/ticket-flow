@@ -30,22 +30,22 @@ public class OrderService : IOrderService
 
     public async Task<OrderResponse> CreateAsync(CreateOrderRequest request, CancellationToken ct = default)
     {
-        // Idempotência: se já existe um pedido com essa chave, retorna ele sem reprocessar
+        // Idempotency: if an order with this key already exists, return it without reprocessing
         var existing = await _orderRepository.GetByIdempotencyKeyAsync(request.IdempotencyKey, ct);
         if (existing is not null)
             return ToResponse(existing);
 
-        // Valida se o ticket existe
+        // Validate that the ticket exists
         var ticket = await _ticketRepository.GetByIdAsync(request.TicketId, ct);
         if (ticket is null)
             throw new NotFoundException($"Ticket {request.TicketId} não encontrado.");
 
-        // Cria o pedido com status Pending
+        // Create the order with Pending status
         var order = new Order(request.TicketId, request.UserId, request.IdempotencyKey);
         await _orderRepository.AddAsync(order, ct);
         await _unitOfWork.CommitAsync(ct);
 
-        // Publica na fila para processamento assíncrono usando a mensagem tipada
+        // Publish to the queue for asynchronous processing using a typed message
         await _publisher.PublishAsync(new OrderCreatedMessage { OrderId = order.Id }, OrdersQueue, ct);
 
         return ToResponse(order);
@@ -61,7 +61,7 @@ public class OrderService : IOrderService
         order.Id,
         order.TicketId,
         order.UserId,
-        order.Status,
+        order.Status.ToString(),
         order.IdempotencyKey,
         order.FailureReason,
         order.CreatedAt,

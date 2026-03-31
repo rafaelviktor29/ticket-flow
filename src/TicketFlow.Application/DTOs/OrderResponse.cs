@@ -6,7 +6,7 @@ public record OrderResponse(
     Guid Id,
     Guid TicketId,
     Guid UserId,
-    OrderStatus Status,
+    string Status,
     string IdempotencyKey,
     string? FailureReason,
     DateTime CreatedAt,

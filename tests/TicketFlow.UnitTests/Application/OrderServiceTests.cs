@@ -21,7 +21,7 @@ public class OrderServiceTests
         new(_orderRepo.Object, _ticketRepo.Object, _uow.Object, _publisher.Object);
 
     [Fact]
-    public async Task CreateAsync_QuandoChaveJaExiste_DeveRetornarPedidoExistenteSemCriarNovo()
+    public async Task CreateAsync_WhenKeyExists_ShouldReturnExistingOrderWithoutCreatingNew()
     {
         var chave        = "chave-duplicada";
         var pedidoExiste = new Order(Guid.NewGuid(), Guid.NewGuid(), chave);
@@ -37,7 +37,7 @@ public class OrderServiceTests
     }
 
     [Fact]
-    public async Task CreateAsync_QuandoChaveNova_DeveCriarPedidoEPublicarNaFila()
+    public async Task CreateAsync_WhenKeyIsNew_ShouldCreateOrderAndPublishToQueue()
     {
         var ticketId = Guid.NewGuid();
         var chave    = "chave-nova";
@@ -50,13 +50,13 @@ public class OrderServiceTests
 
         var resultado = await CriarService().CreateAsync(new(ticketId, Guid.NewGuid(), chave));
 
-        resultado.Status.ShouldBe(OrderStatus.Pending);
+        resultado.Status.ShouldBe("Pending");
         _orderRepo.Verify(r => r.AddAsync(It.IsAny<Order>(), default), Times.Once);
         _publisher.Verify(p => p.PublishAsync(It.IsAny<object>(), "orders", default), Times.Once);
     }
 
     [Fact]
-    public async Task CreateAsync_QuandoTicketNaoExiste_DeveLancarExcecao()
+    public async Task CreateAsync_WhenTicketDoesNotExist_ShouldThrow()
     {
         var ticketId = Guid.NewGuid();
 
@@ -72,7 +72,7 @@ public class OrderServiceTests
     }
 
     [Fact]
-    public async Task GetByIdAsync_QuandoPedidoExiste_DeveRetornarPedido()
+    public async Task GetByIdAsync_WhenOrderExists_ShouldReturnOrder()
     {
         var orderId = Guid.NewGuid();
         var order   = new Order(Guid.NewGuid(), Guid.NewGuid(), "chave-001");
@@ -85,7 +85,7 @@ public class OrderServiceTests
     }
 
     [Fact]
-    public async Task GetByIdAsync_QuandoPedidoNaoExiste_DeveRetornarNull()
+    public async Task GetByIdAsync_WhenOrderDoesNotExist_ShouldReturnNull()
     {
         _orderRepo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), default))
                   .ReturnsAsync((Order?)null);

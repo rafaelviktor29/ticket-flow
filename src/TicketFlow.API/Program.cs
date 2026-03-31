@@ -1,32 +1,29 @@
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
 using TicketFlow.API.Middleware;
 using TicketFlow.Application.Interfaces;
-using TicketFlow.Application.Messaging;
 using TicketFlow.Application.Services;
-using TicketFlow.Domain.Interfaces;
 using TicketFlow.Infrastructure;
-using TicketFlow.Infrastructure.Persistence;
 using TicketFlow.Infrastructure.Messaging;
+using TicketFlow.Infrastructure.Persistence;
 
-// Aumenta o pool de threads para suportar carga concorrente
+// Increase the thread pool minimum to better handle concurrent load
 ThreadPool.SetMinThreads(200, 200);
 
-// Instrui o Npgsql a aceitar DateTime sem Kind definido tratando-os como UTC
+// Instruct Npgsql to treat DateTime without Kind as UTC
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-// During tests the WebApplicationFactory builds the host and may validate
-// service scope relationships. Disable scope validation here to keep the
-// test host from failing when test code replaces or removes services.
+// During tests the WebApplicationFactory may validate service scope
+// relationships. Disable scope validation so the test host does not fail
+// when test code replaces or removes services.
 builder.Host.UseDefaultServiceProvider(opts => opts.ValidateScopes = false);
 
-// ── Infrastructure shared registrations (DbContext, repos, RabbitMQ connection/publisher)
-// Note: RabbitMqConsumer is intentionally NOT registered here so API doesn't host the consumer.
+// Infrastructure shared registrations (DbContext, repositories, RabbitMQ connection/publisher)
+// Note: RabbitMqConsumer is intentionally NOT registered here so the API does not host the consumer.
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-// DbContext pool for API (smaller scale than workers but still pooled)
+// DbContext pool for the API (smaller scale than workers but still pooled)
 builder.Services.AddDbContextPool<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -35,14 +32,12 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<OrderProcessor>();
 
 // ── API ───────────────────────────────────────────────────────────────────────
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        // Ignora referências circulares ao serializar
-        options.JsonSerializerOptions.ReferenceHandler =
-            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-    });
-
+builder.Services.AddControllers();
+// Configure JSON options to serialize enums as strings globally
+builder.Services.AddControllers().AddJsonOptions(opts =>
+{
+    opts.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -53,9 +48,9 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// ── Migrations automáticas ao iniciar ────────────────────────────────────────
-// Em produção, prefira rodar migrations separadamente.
-// Para o TCC, isso facilita o setup inicial.
+// Automatic migrations on startup.
+// In production prefer running migrations separately. For the thesis/demo this
+// simplifies initial setup.
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();

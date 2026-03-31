@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using Shouldly;
+using TicketFlow.Application.DTOs;
 using TicketFlow.API.Controllers;
 using TicketFlow.IntegrationTests.Helpers;
 using Xunit;
@@ -15,7 +16,7 @@ public class EventsControllerTests : IClassFixture<TestWebApplicationFactory>
         => _client = factory.CreateClient();
 
     [Fact]
-    public async Task GetAll_QuandoNaoHaEventos_DeveRetornarListaVazia()
+    public async Task GetAll_WhenNoEvents_ShouldReturnEmptyList()
     {
         var response = await _client.GetAsync("/api/events");
 
@@ -25,7 +26,7 @@ public class EventsControllerTests : IClassFixture<TestWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Create_ComDadosValidos_DeveRetornar201EEventoCriado()
+    public async Task Create_WithValidData_ShouldReturn201AndCreatedEvent()
     {
         var request = new CreateEventRequest(
             "Show de Rock", "Estádio", DateTime.UtcNow.AddMonths(3), 3, 150m);
@@ -40,7 +41,7 @@ public class EventsControllerTests : IClassFixture<TestWebApplicationFactory>
     }
 
     [Fact]
-    public async Task GetTickets_AposCriarEvento_DeveRetornarTicketsGerados()
+    public async Task GetTickets_AfterCreatingEvent_ShouldReturnGeneratedTickets()
     {
         var request = new CreateEventRequest(
             "Festival", "Arena", DateTime.UtcNow.AddMonths(2), 2, 100m);
@@ -57,7 +58,7 @@ public class EventsControllerTests : IClassFixture<TestWebApplicationFactory>
     }
 
     [Fact]
-    public async Task GetById_QuandoEventoNaoExiste_DeveRetornar404()
+    public async Task GetById_WhenEventDoesNotExist_ShouldReturn404()
     {
         var response = await _client.GetAsync($"/api/events/{Guid.NewGuid()}");
 

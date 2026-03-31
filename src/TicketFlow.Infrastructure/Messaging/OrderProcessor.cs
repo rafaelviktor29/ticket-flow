@@ -28,23 +28,21 @@ public class OrderProcessor
         _logger = logger;
     }
 
-    // No changes to business logic — remains the processing unit used by both API tests and Worker consumers.
-
+    // Processing unit shared by API tests and Worker consumers. Business logic is unchanged.
     public async Task ProcessAsync(Guid orderId, CancellationToken ct = default)
     {
         var order = await _orderRepository.GetByIdAsync(orderId, ct);
 
         if (order is null)
         {
-            _logger.LogWarning("Pedido {OrderId} não encontrado. Ignorando.", orderId);
+            _logger.LogWarning("Order {OrderId} not found. Ignoring.", orderId);
             return;
         }
 
-        // Idempotência no processamento:
-        // se o pedido já foi confirmado ou falhou, não reprocessa.
+        // Processing idempotency: if order was already confirmed or failed, do not reprocess.
         if (order.Status is OrderStatus.Confirmed or OrderStatus.Failed)
         {
-            _logger.LogInformation("Pedido {OrderId} já processado ({Status}). Ignorando.", orderId, order.Status);
+            _logger.LogInformation("Order {OrderId} already processed ({Status}). Ignoring.", orderId, order.Status);
             return;
         }
 
@@ -53,26 +51,26 @@ public class OrderProcessor
 
         try
         {
-            // Busca o ticket diretamente pelo id registrado no pedido.
-            // Não usa AsNoTracking: o EF Core precisa rastrear o objeto
-            // para detectar o conflito de RowVersion no SaveChanges.
+            // Load the ticket by id registered on the order.
+            // Do not use AsNoTracking: EF Core must track the entity to detect
+            // concurrency token changes on SaveChanges.
             var ticket = await _ticketRepository.GetByIdAsync(order.TicketId, ct);
 
             if (ticket is null || ticket.IsReserved)
             {
-                order.MarkAsFailed("Ingresso não disponível.");
+                order.MarkAsFailed("Ticket not available.");
                 await _unitOfWork.CommitAsync(ct);
                 return;
             }
 
-            // Reserva o ingresso — zona crítica do lock otimista.
-            // Se dois consumers chegarem aqui ao mesmo tempo com o mesmo ticket,
-            // o primeiro salva e o RowVersion muda no banco.
-            // O segundo tenta salvar com o RowVersion antigo, nenhuma linha é afetada,
-            // e o EF Core lança DbUpdateConcurrencyException.
+            // Reserve the ticket — optimistic concurrency critical section.
+            // If two consumers reach this point for the same ticket, the first
+            // will save and change the concurrency token. The second will attempt
+            // to save with the old token, no rows will be affected and EF Core
+            // throws DbUpdateConcurrencyException.
             ticket.Reserve(order.Id);
 
-            // Cria e persiste o pagamento (simulado)
+            // Create and persist the payment (simulated)
             var payment = new Payment(order.Id, ticket.Price);
             payment.Approve();
             await _paymentRepository.AddAsync(payment, ct);
@@ -81,7 +79,7 @@ public class OrderProcessor
 
             await _unitOfWork.CommitAsync(ct);
 
-            _logger.LogInformation("Pedido {OrderId} confirmado com sucesso.", orderId);
+            _logger.LogInformation("Order {OrderId} successfully confirmed.", orderId);
         }
         catch (DbUpdateConcurrencyException ex)
         {

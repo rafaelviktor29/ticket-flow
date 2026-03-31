@@ -2,20 +2,20 @@ import http from "k6/http";
 import { check, sleep } from "k6";
 import { Counter, Rate, Trend } from "k6/metrics";
 
-// Métricas
+// Metrics
 const pedidosCriados = new Counter("pedidos_criados");
 const pedidosConfirmados = new Counter("pedidos_confirmados");
 const pedidosFalhos = new Counter("pedidos_falhos");
 const taxaErro = new Rate("taxa_erro");
 const tempoResposta = new Trend("tempo_resposta_ms", true);
 
-// Enum do backend
+// Backend status enum (string values to match API JSON)
 const STATUS = {
-  CONFIRMED: 2,
-  FAILED: 3,
+  CONFIRMED: "Confirmed",
+  FAILED: "Failed",
 };
 
-// Configuração do teste
+// Test configuration
 export const options = {
   scenarios: {
     alta_concorrencia: {
@@ -37,7 +37,7 @@ export const options = {
 const BASE_URL = "http://localhost:54049";
 const TICKET_ID = __ENV.TICKET_ID;
 
-// Geração de UUID para simular usuários distintos
+// Generate UUID to simulate distinct users
 function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0;
@@ -49,7 +49,7 @@ function uuidv4() {
 // Execução principal
 export default function () {
   if (!TICKET_ID) {
-    throw new Error("TICKET_ID não informado. Use -e TICKET_ID=...");
+    throw new Error("TICKET_ID not provided. Use -e TICKET_ID=...");
   }
 
   var payload = JSON.stringify({
@@ -63,16 +63,17 @@ export default function () {
     timeout: "10s",
   };
 
-  // Envio da requisição de criação de pedido
+  // Send order creation request
   var start = Date.now();
   var res = http.post(BASE_URL + "/api/orders", payload, params);
   tempoResposta.add(Date.now() - start);
 
   var criado = check(res, {
-    "pedido aceito (202)": function (r) {
+    "order accepted (202)": function (r) {
       return r.status === 202;
     },
   });
+
 
   if (!criado) {
     taxaErro.add(1);
@@ -85,7 +86,7 @@ export default function () {
   var order = res.json();
   if (!order || !order.id) return;
 
-  // Polling para verificar processamento assíncrono
+  // Poll to verify asynchronous processing
   for (var i = 0; i < 15; i++) {
     sleep(2);
 
@@ -111,7 +112,7 @@ export default function () {
       continue;
     }
 
-    var status = Number(statusOrder.status);
+    var status = String(statusOrder.status);
 
     if (status === STATUS.CONFIRMED) {
       pedidosConfirmados.add(1);

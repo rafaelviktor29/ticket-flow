@@ -43,12 +43,12 @@ public class OrdersControllerTests : IClassFixture<TestWebApplicationFactory>
         response.StatusCode.ShouldBe(HttpStatusCode.Accepted);
         var order = await response.Content.ReadFromJsonAsync<OrderResponse>();
         order.ShouldNotBeNull();
-        order!.Status.ShouldBe(OrderStatus.Pending);
+        order!.Status.ShouldBe("Pending");
         order.TicketId.ShouldBe(ticketId);
     }
 
     [Fact]
-    public async Task Create_ComMesmaChaveIdempotencia_DeveRetornarMesmoPedido()
+    public async Task Create_WithSameIdempotencyKey_ShouldReturnSameOrder()
     {
         var ticketId = await CriarTicketAsync();
         var chave    = $"chave-{Guid.NewGuid()}";
@@ -65,7 +65,7 @@ public class OrdersControllerTests : IClassFixture<TestWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Create_ComTicketInexistente_DeveRetornar404()
+    public async Task Create_WithNonexistentTicket_ShouldReturn404()
     {
         var request = new CreateOrderRequest(Guid.NewGuid(), Guid.NewGuid(), $"chave-{Guid.NewGuid()}");
 
@@ -75,7 +75,7 @@ public class OrdersControllerTests : IClassFixture<TestWebApplicationFactory>
     }
 
     [Fact]
-    public async Task GetById_ComPedidoExistente_DeveRetornar200()
+    public async Task GetById_WithExistingOrder_ShouldReturn200()
     {
         var ticketId     = await CriarTicketAsync();
         var createRes    = await _client.PostAsJsonAsync("/api/orders",
@@ -90,7 +90,7 @@ public class OrdersControllerTests : IClassFixture<TestWebApplicationFactory>
     }
 
     [Fact]
-    public async Task GetById_ComPedidoInexistente_DeveRetornar404()
+    public async Task GetById_WithNonexistentOrder_ShouldReturn404()
     {
         var response = await _client.GetAsync($"/api/orders/{Guid.NewGuid()}");
 
@@ -98,7 +98,7 @@ public class OrdersControllerTests : IClassFixture<TestWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Create_DevePublicarMensagemNaFila()
+    public async Task Create_ShouldPublishMessageToQueue()
     {
         var ticketId = await CriarTicketAsync();
         var request  = new CreateOrderRequest(ticketId, Guid.NewGuid(), $"chave-{Guid.NewGuid()}");

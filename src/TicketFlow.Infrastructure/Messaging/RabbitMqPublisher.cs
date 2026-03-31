@@ -18,18 +18,18 @@ public class RabbitMqPublisher : IMessagePublisher, IDisposable
 
     public Task PublishAsync<T>(T message, string queueName, CancellationToken ct = default)
     {
-        // Resolução do Erro
-            var args = new Dictionary<string, object>
+        // Configure dead-lettering for the queue
+        var args = new Dictionary<string, object>
         {
             { "x-dead-letter-exchange", "orders.dlx" },
             { "x-dead-letter-routing-key", "orders.dead-letter" }
         };
 
-        // Declara a fila de forma idempotente:
-        // se já existir com os mesmos parâmetros, não faz nada.
-        // durable: true  — fila sobrevive a reinicialização do RabbitMQ
-        // exclusive: false — pode ser usada por múltiplas conexões
-        // autoDelete: false — não exclui quando o consumer desconecta
+        // Declare the queue idempotently: if it already exists with the same
+        // parameters, this is a no-op.
+        // durable: true  — surviving RabbitMQ restart
+        // exclusive: false — usable by multiple connections
+        // autoDelete: false — not deleted when consumer disconnects
         _channel.QueueDeclare(
             queue: queueName,
             durable: true,

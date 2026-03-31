@@ -15,21 +15,22 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
 {
     private readonly SqliteConnection _connection;
  
-    // O construtor recebe o DatabaseFixture, que já inicializou a conexão e o esquema
+    // The constructor receives the DatabaseFixture which already initialized
+    // the shared connection and schema
     public ConcurrencyTests(DatabaseFixture fixture)
     {
         _connection = fixture.Connection;
     }
  
-    // Método para criar um novo contexto usando a conexão compartilhada
+    // Create a new DbContext using the shared connection
     private AppDbContext CriarContexto()
     {
-        // Não precisamos mais de dbName, pois a conexão já define o banco de dados
+        // No dbName is required because the connection already identifies the database
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseSqlite(_connection) // Usa a conexão aberta e compartilhada
             .Options;
         var ctx = new AppDbContext(options);
-        // EnsureCreated() é chamado uma única vez no construtor do DatabaseFixture
+        // EnsureCreated() is called once in the DatabaseFixture constructor
         return ctx;
     }
  
@@ -41,7 +42,7 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
     [Fact]
     public async Task ProcessAsync_QuandoMultiplosPedidosParaMesmoTicket_ApenasUmDeveSerConfirmado()
     {
-        await using var setupCtx = CriarContexto(); // Usa a conexão compartilhada
+        await using var setupCtx = CriarContexto(); // Uses the shared connection
 
         var evento  = new Event("Show", "Arena", DateTime.UtcNow.AddMonths(1), 1);
         var ticket  = new Ticket(evento.Id, "A001", 150m);
@@ -57,8 +58,8 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
  
         var tarefas = pedidos.Select(async pedido =>
         {
-            // Usar 'await using' garante o dispose do contexto da tarefa
-            await using var ctx = CriarContexto(); // Cada tarefa obtém seu próprio contexto, mas com a mesma conexão
+                // Using 'await using' ensures the task's context is disposed
+                await using var ctx = CriarContexto(); // Each task gets its own context sharing the connection
             var processor = CriarProcessor(ctx);
             try
             {
@@ -68,7 +69,7 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
                 var finalOrder = await ctx.Orders.FindAsync(pedido.Id);
                 return finalOrder.Status == OrderStatus.Confirmed; // Retorna true se confirmado, false caso contrário
             }
-            catch (DbUpdateConcurrencyException) { return false; } // Conflito de concorrência esperado
+                catch (DbUpdateConcurrencyException) { return false; } // Expected concurrency conflict
             catch (Exception ex)
             {
                 // Exceção inesperada, re-lança para falhar o teste imediatamente
@@ -79,9 +80,9 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
         var resultados = await Task.WhenAll(tarefas);
 
         resultados.Count(r => r).ShouldBe(1,
-            "apenas um processo deve confirmar — lock otimista garante isso");
+            "only one process should confirm — optimistic lock guarantees this");
         resultados.Count(r => !r).ShouldBe(qtd - 1,
-            "os demais devem falhar com DbUpdateConcurrencyException");
+            "the others should fail with DbUpdateConcurrencyException");
     }
  
     [Fact]
@@ -103,7 +104,7 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
         await setupCtx.SaveChangesAsync();
  
         var tarefas = pedidos.Select(async pedido =>
-        {
+        { 
             await using var ctx = CriarContexto(); // Cada tarefa obtém seu próprio contexto, mas com a mesma conexão
             var processor = CriarProcessor(ctx);
             try { await processor.ProcessAsync(pedido.Id); }

@@ -8,17 +8,17 @@ namespace TicketFlow.UnitTests.Domain;
 public class OrderTests
 {
     [Fact]
-    public void NovoPedido_DeveIniciarComStatusPending()
+    public void NewOrder_ShouldStartWithStatusPending()
     {
         var order = new Order(Guid.NewGuid(), Guid.NewGuid(), "chave-001");
 
-        order.Status.ShouldBe(OrderStatus.Pending);
+        order.Status.ShouldBe(OrderStatus.Pending); // Ensuring the status is set to Pending
         order.ProcessedAt.ShouldBeNull();
         order.FailureReason.ShouldBeNull();
     }
 
     [Fact]
-    public void MarkAsProcessing_DeveAlterarStatusParaProcessing()
+    public void MarkAsProcessing_ShouldChangeStatusToProcessing()
     {
         var order = new Order(Guid.NewGuid(), Guid.NewGuid(), "chave-001");
 
@@ -28,7 +28,7 @@ public class OrderTests
     }
 
     [Fact]
-    public void MarkAsConfirmed_DeveRegistrarDataProcessamento()
+    public void MarkAsConfirmed_ShouldSetProcessedAt()
     {
         var order = new Order(Guid.NewGuid(), Guid.NewGuid(), "chave-001");
         var antes = DateTime.UtcNow;
@@ -41,7 +41,7 @@ public class OrderTests
     }
 
     [Fact]
-    public void MarkAsFailed_DeveRegistrarMotivoEDataProcessamento()
+    public void MarkAsFailed_ShouldRecordFailureReasonAndProcessedAt()
     {
         var order  = new Order(Guid.NewGuid(), Guid.NewGuid(), "chave-001");
         var motivo = "Conflito de concorrência.";
@@ -54,7 +54,7 @@ public class OrderTests
     }
 
     [Fact]
-    public void IdempotencyKey_DeveSerArmazenadoCorretamente()
+    public void IdempotencyKey_ShouldBeStoredCorrectly()
     {
         var chave = "chave-unica-123";
 

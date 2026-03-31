@@ -15,6 +15,10 @@ public class Event
 
     public Event(string name, string venue, DateTime date, int totalTickets)
     {
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name is required", nameof(name));
+        if (string.IsNullOrWhiteSpace(venue)) throw new ArgumentException("venue is required", nameof(venue));
+        if (totalTickets <= 0) throw new ArgumentException("totalTickets must be greater than zero", nameof(totalTickets));
+
         Id = Guid.NewGuid();
         Name = name;
         Venue = venue;

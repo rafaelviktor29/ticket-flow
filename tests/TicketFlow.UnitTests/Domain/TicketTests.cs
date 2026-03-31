@@ -7,7 +7,7 @@ namespace TicketFlow.UnitTests.Domain;
 public class TicketTests
 {
     [Fact]
-    public void Reserve_DeveMarcarTicketComoReservado()
+    public void Reserve_MarksTicketAsReserved()
     {
         var ticket  = new Ticket(Guid.NewGuid(), "A001", 150m);
         var orderId = Guid.NewGuid();
@@ -19,18 +19,18 @@ public class TicketTests
     }
 
     [Fact]
-    public void Reserve_QuandoJaReservado_DeveLancarExcecao()
+    public void Reserve_WhenAlreadyReserved_Throws()
     {
         var ticket = new Ticket(Guid.NewGuid(), "A001", 150m);
         ticket.Reserve(Guid.NewGuid());
 
         var ex = Should.Throw<InvalidOperationException>(() => ticket.Reserve(Guid.NewGuid()));
 
-        ex.Message.ShouldBe($"Ticket {ticket.Id} já está reservado.");
+        ex.Message.ShouldBe($"Ticket {ticket.Id} is already reserved.");
     }
 
     [Fact]
-    public void Release_DeveLibertarTicketReservado()
+    public void Release_ReleasesReservedTicket()
     {
         var ticket = new Ticket(Guid.NewGuid(), "A001", 150m);
         ticket.Reserve(Guid.NewGuid());
@@ -42,7 +42,7 @@ public class TicketTests
     }
 
     [Fact]
-    public void NovoTicket_DeveEstarDisponivelPorPadrao()
+    public void NewTicket_IsAvailableByDefault()
     {
         var ticket = new Ticket(Guid.NewGuid(), "B012", 200m);
 

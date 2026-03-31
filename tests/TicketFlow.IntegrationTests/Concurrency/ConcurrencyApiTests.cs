@@ -25,15 +25,15 @@ public class ConcurrencyApiTests : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task PostOrder_QuandoMultiplosPedidosParaMesmoTicket_ApenasUmDeveSerConfirmado()
+    public async Task PostOrder_WhenMultipleOrdersForSameTicket_OnlyOneShouldBeConfirmed()
     {
-        // Arrange: Criar um evento e um ticket no banco de dados de teste
+        // Arrange: create an event and a ticket in the test database
         var eventId = Guid.NewGuid();
         var ticketId = Guid.NewGuid();
         var createEventRequest = new CreateEventRequest(
             "Show de Teste", "Local Teste", DateTime.UtcNow.AddDays(30), 1, 100m);
 
-        // Usar um contexto separado para setup inicial
+        // Use a separate context for initial setup
         await using (var setupCtx = _factory.CreateDbContext())
         {
             var @event = new Event(createEventRequest.Name, createEventRequest.Venue, createEventRequest.Date, createEventRequest.TotalTickets);
@@ -51,7 +51,7 @@ public class ConcurrencyApiTests : IClassFixture<CustomWebApplicationFactory>
             .Select(i => Guid.NewGuid())
             .ToList();
 
-        // Act: Enviar múltiplas requisições POST /api/orders concorrentemente
+        // Act: send multiple POST /api/orders requests concurrently
         var tasks = userIds.Select(async userId =>
         {
             var idempotencyKey = $"test-key-{userId}";
@@ -67,11 +67,11 @@ public class ConcurrencyApiTests : IClassFixture<CustomWebApplicationFactory>
 
         var responses = await Task.WhenAll(tasks);
 
-        // Assert: Verificar que todas as requisições foram aceitas (202 Accepted)
+        // Assert: ensure all requests were accepted (202 Accepted)
         responses.ShouldAllBe(r => r.StatusCode == HttpStatusCode.Accepted, "Todas as requisições devem ser aceitas (202 Accepted)");
 
-        // Act: Processar as mensagens manualmente, pois o HostedService não roda nos testes de integração
-        // Obtém o FakeMessagePublisher e o OrderProcessor do service provider da fábrica para simular o processamento
+        // Act: process messages manually because the hosted service does not run in integration tests
+        // Obtain the FakeMessagePublisher and OrderProcessor from the factory's service provider to simulate processing
         var fakePublisher = _factory.Services.GetRequiredService<IMessagePublisher>() as FakeMessagePublisher;
         fakePublisher.ShouldNotBeNull();
 
@@ -88,26 +88,26 @@ public class ConcurrencyApiTests : IClassFixture<CustomWebApplicationFactory>
         await Task.WhenAll(processingTasks);
         fakePublisher.ClearMessages(); // Limpa as mensagens para o próximo teste
 
-        // Assert: Verificar o estado final do banco de dados
+        // Assert: verify final database state
         await using var assertCtx = _factory.CreateDbContext();
         var orders = await assertCtx.Orders.Where(o => userIds.Contains(o.UserId)).ToListAsync();
         var ticketAfterProcessing = await assertCtx.Tickets.FindAsync(ticketId);
 
-        // Deve haver exatamente um pedido confirmado
-        orders.Count(o => o.Status == OrderStatus.Confirmed).ShouldBe(1, "Apenas um pedido deve ser confirmado");
+        // There must be exactly one confirmed order
+        orders.Count(o => o.Status == OrderStatus.Confirmed).ShouldBe(1, "Only one order should be confirmed");
 
-        // Os demais pedidos devem ter falhado
-        orders.Count(o => o.Status == OrderStatus.Failed).ShouldBe(numberOfConcurrentRequests - 1, "Os demais pedidos devem ser marcados como falha");
+        // The other orders must have failed
+        orders.Count(o => o.Status == OrderStatus.Failed).ShouldBe(numberOfConcurrentRequests - 1, "The remaining orders should be marked as failed");
 
-        // O ticket deve estar reservado
+        // The ticket should be reserved
         ticketAfterProcessing.ShouldNotBeNull();
-        ticketAfterProcessing.IsReserved.ShouldBeTrue("O ticket deve estar reservado por um dos pedidos");
+        ticketAfterProcessing.IsReserved.ShouldBeTrue("The ticket should be reserved by one of the orders");
 
-        // O pagamento deve ter sido criado para o pedido confirmado
+        // A payment must have been created for the confirmed order
         var confirmedOrder = orders.Single(o => o.Status == OrderStatus.Confirmed);
         var payment = await assertCtx.Payments.SingleOrDefaultAsync(p => p.OrderId == confirmedOrder.Id);
-        payment.ShouldNotBeNull($"Deve haver um pagamento para o pedido confirmado: {confirmedOrder.Id}");
-        payment.Status.ShouldBe(PaymentStatus.Approved, "O pagamento do pedido confirmado deve estar aprovado");
+        payment.ShouldNotBeNull($"There must be a payment for the confirmed order: {confirmedOrder.Id}");
+        payment.Status.ShouldBe(PaymentStatus.Approved, "The payment for the confirmed order must be approved");
     }
 
     // Helper para criar eventos, já que o controller de eventos não usa o OrderProcessor
