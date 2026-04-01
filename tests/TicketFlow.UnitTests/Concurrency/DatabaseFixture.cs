@@ -17,7 +17,7 @@ public class DatabaseFixture : IDisposable
         var options = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(Connection).Options;
         using (var context = new AppDbContext(options))
         {
-            context.Database.EnsureCreated(); // Cria o esquema do banco de dados uma única vez
+            context.Database.EnsureCreated();
         }
     }
 

@@ -14,7 +14,7 @@ public class OrderServiceTests
 {
     private readonly Mock<IOrderRepository>  _orderRepo  = new();
     private readonly Mock<ITicketRepository> _ticketRepo = new();
-    private readonly Mock<IUnitOfWork>       _uow        = new();
+    private readonly Mock<IUnitOfWork> _uow = new();
     private readonly Mock<IMessagePublisher> _publisher  = new();
 
     private OrderService CriarService() =>
@@ -23,11 +23,11 @@ public class OrderServiceTests
     [Fact]
     public async Task CreateAsync_WhenKeyExists_ShouldReturnExistingOrderWithoutCreatingNew()
     {
-        var chave        = "chave-duplicada";
+        var chave = "chave-duplicada";
         var pedidoExiste = new Order(Guid.NewGuid(), Guid.NewGuid(), chave);
 
         _orderRepo.Setup(r => r.GetByIdempotencyKeyAsync(chave, default))
-                  .ReturnsAsync(pedidoExiste);
+            .ReturnsAsync(pedidoExiste);
 
         var resultado = await CriarService().CreateAsync(new(Guid.NewGuid(), Guid.NewGuid(), chave));
 
@@ -43,9 +43,9 @@ public class OrderServiceTests
         var chave    = "chave-nova";
 
         _orderRepo.Setup(r => r.GetByIdempotencyKeyAsync(chave, default))
-                  .ReturnsAsync((Order?)null);
+            .ReturnsAsync((Order?)null);
         _ticketRepo.Setup(r => r.GetByIdAsync(ticketId, default))
-                   .ReturnsAsync(new Ticket(Guid.NewGuid(), "A001", 100m));
+            .ReturnsAsync(new Ticket(Guid.NewGuid(), "A001", 100m));
         _uow.Setup(u => u.CommitAsync(default)).ReturnsAsync(1);
 
         var resultado = await CriarService().CreateAsync(new(ticketId, Guid.NewGuid(), chave));
@@ -61,9 +61,9 @@ public class OrderServiceTests
         var ticketId = Guid.NewGuid();
 
         _orderRepo.Setup(r => r.GetByIdempotencyKeyAsync(It.IsAny<string>(), default))
-                  .ReturnsAsync((Order?)null);
+            .ReturnsAsync((Order?)null);
         _ticketRepo.Setup(r => r.GetByIdAsync(ticketId, default))
-                   .ReturnsAsync((Ticket?)null);
+            .ReturnsAsync((Ticket?)null);
 
         var ex = await Should.ThrowAsync<Exception>(
             async () => await CriarService().CreateAsync(new(ticketId, Guid.NewGuid(), "chave")));
@@ -88,7 +88,7 @@ public class OrderServiceTests
     public async Task GetByIdAsync_WhenOrderDoesNotExist_ShouldReturnNull()
     {
         _orderRepo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), default))
-                  .ReturnsAsync((Order?)null);
+            .ReturnsAsync((Order?)null);
 
         var resultado = await CriarService().GetByIdAsync(Guid.NewGuid());
 

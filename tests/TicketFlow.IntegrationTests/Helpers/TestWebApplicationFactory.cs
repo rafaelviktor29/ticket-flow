@@ -17,7 +17,7 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        // Aponta para o diretório correto da API
+        // Points to the correct API directory
         builder.UseContentRoot(Directory.GetCurrentDirectory());
 
         builder.ConfigureServices(services =>
@@ -26,7 +26,7 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
             var dbDesc = services.SingleOrDefault(d =>
                 d.ServiceType == typeof(DbContextOptions<AppDbContext>));
             if (dbDesc != null) services.Remove(dbDesc);
-            // Cria uma conexão SQLite em memória compartilhada e mantida aberta
+            // Creates a shared-memory SQLite connection that is kept open
             _connection = new SqliteConnection("DataSource=:memory:");
             _connection.Open();
 
@@ -53,7 +53,7 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
             var sp = services.BuildServiceProvider();
             using var scope = sp.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            // Garante que o esquema seja criado usando a conexão aberta
+            // Ensures the scheme is created using the open connection
             db.Database.EnsureCreated();
         });
     }

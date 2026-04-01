@@ -52,7 +52,7 @@ public class EventsController : ControllerBase
         var evt = new Event(request.Name, request.Venue, request.Date, request.TotalTickets);
         await _eventRepository.AddAsync(evt, ct);
 
-        // Gera os ingressos automaticamente para o evento
+        // It automatically generates tickets for the event
         var tickets = Enumerable.Range(1, request.TotalTickets)
             .Select(i => new Ticket(evt.Id, $"A{i:D3}", request.TicketPrice));
 

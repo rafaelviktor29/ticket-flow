@@ -51,7 +51,7 @@ public class Ticket
         ConcurrencyToken = Guid.NewGuid();
     }
 
-    // Método para definir o ID, útil para testes
+    // Method for setting the ID, useful for testing.
     public void SetId(Guid id)
     {
         Id = id;

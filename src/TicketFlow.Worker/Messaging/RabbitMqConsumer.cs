@@ -38,7 +38,7 @@ public class RabbitMqConsumer : BackgroundService
                 retryCount: 3,
                 sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)),
                 onRetry: (ex, delay, attempt, _) =>
-                    _logger.LogWarning(ex, "Retry {Attempt}/3 aguardando {Delay}s.", attempt, delay.TotalSeconds)
+                    _logger.LogWarning(ex, "Retry {Attempt}/3 waiting for {Delay}s.", attempt, delay.TotalSeconds)
             );
     }
 
@@ -74,12 +74,12 @@ public class RabbitMqConsumer : BackgroundService
 
             if (payload is null)
             {
-                _logger.LogWarning("Mensagem inválida. Enviando para dead-letter.");
+                _logger.LogWarning("Invalid message. Sending to dead-letter.");
                 _channel.BasicNack(ea.DeliveryTag, multiple: false, requeue: false);
                 return;
             }
 
-            _logger.LogInformation("Recebido pedido {OrderId}.", payload.OrderId);
+            _logger.LogInformation("Received order {OrderId}.", payload.OrderId);
 
             var result = await _retryPolicy.ExecuteAndCaptureAsync(async () =>
             {
@@ -96,7 +96,7 @@ public class RabbitMqConsumer : BackgroundService
             else
             {
                 _logger.LogError(result.FinalException,
-                    "Pedido {OrderId} falhou após retries. Enviando para dead-letter.", payload.OrderId);
+                    "Order {OrderId} failed after retries. Sending to dead-letter.", payload.OrderId);
                 _channel.BasicNack(ea.DeliveryTag, multiple: false, requeue: false);
             }
         };

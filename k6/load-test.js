@@ -3,11 +3,11 @@ import { check, sleep } from "k6";
 import { Counter, Rate, Trend } from "k6/metrics";
 
 // Metrics
-const pedidosCriados = new Counter("pedidos_criados");
-const pedidosConfirmados = new Counter("pedidos_confirmados");
-const pedidosFalhos = new Counter("pedidos_falhos");
-const taxaErro = new Rate("taxa_erro");
-const tempoResposta = new Trend("tempo_resposta_ms", true);
+const ordersCreated = new Counter("orders_created");
+const ordersConfirmed = new Counter("orders_confirmed");
+const ordersFailed = new Counter("orders_failed");
+const errorRate = new Rate("error_rate");
+const responseTime = new Trend("response_time_ms", true);
 
 // Backend status enum (string values to match API JSON)
 const STATUS = {
@@ -18,7 +18,7 @@ const STATUS = {
 // Test configuration
 export const options = {
   scenarios: {
-    alta_concorrencia: {
+    high_concurrency: {
       executor: "ramping-vus",
       startVUs: 0,
       stages: [
@@ -30,7 +30,7 @@ export const options = {
   },
   thresholds: {
     http_req_duration: ["p(95)<2000"],
-    taxa_erro: ["rate<0.1"],
+    error_rate: ["rate<0.1"],
   },
 };
 
@@ -46,7 +46,7 @@ function uuidv4() {
   });
 }
 
-// Execução principal
+// Main execution
 export default function () {
   if (!TICKET_ID) {
     throw new Error("TICKET_ID not provided. Use -e TICKET_ID=...");
@@ -66,22 +66,21 @@ export default function () {
   // Send order creation request
   var start = Date.now();
   var res = http.post(BASE_URL + "/api/orders", payload, params);
-  tempoResposta.add(Date.now() - start);
+  responseTime.add(Date.now() - start);
 
-  var criado = check(res, {
+  var isCreated = check(res, {
     "order accepted (202)": function (r) {
       return r.status === 202;
     },
   });
 
-
-  if (!criado) {
-    taxaErro.add(1);
+  if (!isCreated) {
+    errorRate.add(1);
     return;
   }
 
-  taxaErro.add(0);
-  pedidosCriados.add(1);
+  errorRate.add(0);
+  ordersCreated.add(1);
 
   var order = res.json();
   if (!order || !order.id) return;
@@ -102,7 +101,7 @@ export default function () {
       continue;
     }
 
-    // Validação robusta da resposta
+    // Robust response validation
     if (
       !statusOrder ||
       typeof statusOrder !== "object" ||
@@ -115,18 +114,18 @@ export default function () {
     var status = String(statusOrder.status);
 
     if (status === STATUS.CONFIRMED) {
-      pedidosConfirmados.add(1);
+      ordersConfirmed.add(1);
       return;
     }
 
     if (status === STATUS.FAILED) {
-      pedidosFalhos.add(1);
+      ordersFailed.add(1);
       return;
     }
   }
 }
 
-// Funções auxiliares
+// Helper functions
 function getMetric(data, name) {
   if (!data.metrics[name] || !data.metrics[name].values) return 0;
   return data.metrics[name].values.count || 0;
@@ -142,18 +141,18 @@ function getMetricP(data, name, p) {
   return data.metrics[name].values[p] || 0;
 }
 
-// Resumo final do teste
+// Final test summary
 export function handleSummary(data) {
-  console.log("\n=== RESUMO DO TESTE DE CARGA ===");
-  console.log("Pedidos criados:     " + getMetric(data, "pedidos_criados"));
-  console.log("Pedidos confirmados: " + getMetric(data, "pedidos_confirmados"));
-  console.log("Pedidos falhos:      " + getMetric(data, "pedidos_falhos"));
-  console.log("Tempo médio (ms):    " + getMetricAvg(data, "tempo_resposta_ms").toFixed(2));
-  console.log("p95 (ms):            " + getMetricP(data, "tempo_resposta_ms", "p(95)").toFixed(2));
-  console.log("p99 (ms):            " + getMetricP(data, "tempo_resposta_ms", "p(99)").toFixed(2));
+  console.log("\n=== LOAD TEST SUMMARY ===");
+  console.log("Orders created:      " + getMetric(data, "orders_created"));
+  console.log("Orders confirmed:    " + getMetric(data, "orders_confirmed"));
+  console.log("Orders failed:       " + getMetric(data, "orders_failed"));
+  console.log("Average time (ms):   " + getMetricAvg(data, "response_time_ms").toFixed(2));
+  console.log("p95 (ms):            " + getMetricP(data, "response_time_ms", "p(95)").toFixed(2));
+  console.log("p99 (ms):            " + getMetricP(data, "response_time_ms", "p(99)").toFixed(2));
   console.log("================================\n");
 
   return {
-    "k6/resultado.json": JSON.stringify(data, null, 2),
+    "k6/result.json": JSON.stringify(data, null, 2),
   };
 }

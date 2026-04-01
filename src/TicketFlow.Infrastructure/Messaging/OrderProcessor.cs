@@ -83,27 +83,27 @@ public class OrderProcessor
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            _logger.LogWarning(ex, "Conflito de concorrência no pedido {OrderId}. Ticket já reservado.", orderId);
-            order.MarkAsFailed("Conflito de concorrência — ingresso reservado por outro processo.");
+            _logger.LogWarning(ex, "Conflict of interest in order {OrderId}. Ticket already reserved.", orderId);
+            order.MarkAsFailed("Conflict of interest — ticket reserved by another process.");
 
             try { await _unitOfWork.CommitAsync(ct); }
             catch (Exception innerEx)
             {
-                _logger.LogError(innerEx, "Erro ao salvar falha do pedido {OrderId}.", orderId);
+                _logger.LogError(innerEx, "Error saving order failure {OrderId}.", orderId);
             }
 
-            // Relança para o consumer decidir se faz retry ou envia para dead-letter
+            // Re-throw to allow the consumer to decide whether to retry or send to dead-letter
             throw;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro inesperado ao processar pedido {OrderId}.", orderId);
+            _logger.LogError(ex, "Unexpected error occurred while processing order {OrderId}.", orderId);
             order.MarkAsFailed(ex.Message);
 
             try { await _unitOfWork.CommitAsync(ct); }
             catch (Exception innerEx)
             {
-                _logger.LogError(innerEx, "Erro ao salvar falha do pedido {OrderId}.", orderId);
+                _logger.LogError(innerEx, "Error saving order failure {OrderId}.", orderId);
             }
 
             throw;

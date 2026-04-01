@@ -21,8 +21,8 @@ public class OrdersController : ControllerBase
     /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status202Accepted)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]  // ticket não encontrado
-    [ProducesResponseType(StatusCodes.Status400BadRequest)] // dados inválidos
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateOrderRequest request, CancellationToken ct)
     {
         var order = await _orderService.CreateAsync(request, ct);

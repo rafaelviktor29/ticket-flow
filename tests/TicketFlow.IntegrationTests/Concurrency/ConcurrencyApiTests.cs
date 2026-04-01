@@ -4,11 +4,11 @@ using Shouldly;
 using TicketFlow.Domain.Entities;
 using TicketFlow.Domain.Enums;
 using TicketFlow.Infrastructure.Persistence;
-using TicketFlow.Infrastructure.Messaging; // Necessário para OrderProcessor (se OrderProcessor estiver em Infrastructure.Messaging)
-using TicketFlow.Application.Messaging; // IMessagePublisher, OrderCreatedMessage
-using TicketFlow.IntegrationTests.Fakes; // FakeMessagePublisher usado pela CustomWebApplicationFactory
-using Microsoft.Extensions.DependencyInjection; // GetRequiredService / CreateScope
-using Microsoft.EntityFrameworkCore; // ToListAsync, SingleOrDefaultAsync
+using TicketFlow.Infrastructure.Messaging;
+using TicketFlow.Application.Messaging;
+using TicketFlow.IntegrationTests.Fakes;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace TicketFlow.IntegrationTests.Concurrency;
@@ -27,7 +27,6 @@ public class ConcurrencyApiTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task PostOrder_WhenMultipleOrdersForSameTicket_OnlyOneShouldBeConfirmed()
     {
-        // Arrange: create an event and a ticket in the test database
         var eventId = Guid.NewGuid();
         var ticketId = Guid.NewGuid();
         var createEventRequest = new CreateEventRequest(
@@ -78,7 +77,6 @@ public class ConcurrencyApiTests : IClassFixture<CustomWebApplicationFactory>
         var processingTasks = new List<Task>();
         foreach (var message in fakePublisher.PublishedMessages)
         {
-            // O OrderProcessor é Scoped, então precisamos criar um novo scope para cada processamento
             using var scope = _factory.Services.CreateScope();
             var orderProcessor = scope.ServiceProvider.GetRequiredService<OrderProcessor>();
             var orderMessage = message as OrderCreatedMessage; // Assumindo que a mensagem é OrderCreatedMessage
@@ -86,7 +84,7 @@ public class ConcurrencyApiTests : IClassFixture<CustomWebApplicationFactory>
                 processingTasks.Add(orderProcessor.ProcessAsync(orderMessage.OrderId)); // Adiciona a tarefa para execução concorrente
         }
         await Task.WhenAll(processingTasks);
-        fakePublisher.ClearMessages(); // Limpa as mensagens para o próximo teste
+        fakePublisher.ClearMessages();
 
         // Assert: verify final database state
         await using var assertCtx = _factory.CreateDbContext();
@@ -110,8 +108,6 @@ public class ConcurrencyApiTests : IClassFixture<CustomWebApplicationFactory>
         payment.Status.ShouldBe(PaymentStatus.Approved, "The payment for the confirmed order must be approved");
     }
 
-    // Helper para criar eventos, já que o controller de eventos não usa o OrderProcessor
-    // e é mais simples para o setup.
     private record CreateEventRequest(
         string Name,
         string Venue,

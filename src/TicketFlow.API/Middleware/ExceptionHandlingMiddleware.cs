@@ -23,19 +23,19 @@ public class ExceptionHandlingMiddleware
         }
         catch (NotFoundException ex)
         {
-            _logger.LogWarning(ex, "Recurso não encontrado.");
+            _logger.LogWarning(ex, "Resource not found.");
             await WriteErrorAsync(context, HttpStatusCode.NotFound, ex.Message);
         }
         catch (ConflictException ex)
         {
-            _logger.LogWarning(ex, "Conflito de recurso.");
+            _logger.LogWarning(ex, "Resource conflict.");
             await WriteErrorAsync(context, HttpStatusCode.Conflict, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro interno não tratado.");
+            _logger.LogError(ex, "Unhandled internal error.");
             await WriteErrorAsync(context, HttpStatusCode.InternalServerError,
-                "Ocorreu um erro interno. Tente novamente.");
+                "An internal error occurred. Please try again.");
         }
     }
 

@@ -1,7 +1,7 @@
 namespace TicketFlow.Domain.Interfaces;
 
-// Unit of Work: garante que todas as operações de um fluxo
-// sejam salvas juntas — ou nenhuma é salva.
+// Unit of Work: ensures that all operations in a flow.
+// are saved together — or none is saved.
 public interface IUnitOfWork : IDisposable
 {
     Task<int> CommitAsync(CancellationToken ct = default);

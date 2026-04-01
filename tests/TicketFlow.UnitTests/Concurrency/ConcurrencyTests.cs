@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using Shouldly;
-using Microsoft.Data.Sqlite; // Necessário para SqliteConnection
+using Microsoft.Data.Sqlite;
 using TicketFlow.Domain.Entities;
 using TicketFlow.Domain.Enums;
 using TicketFlow.Infrastructure.Messaging;
@@ -27,7 +27,7 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
     {
         // No dbName is required because the connection already identifies the database
         var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlite(_connection) // Usa a conexão aberta e compartilhada
+            .UseSqlite(_connection)
             .Options;
         var ctx = new AppDbContext(options);
         // EnsureCreated() is called once in the DatabaseFixture constructor
@@ -64,15 +64,12 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
             try
             {
                 await processor.ProcessAsync(pedido.Id);
-                // Se ProcessAsync completa sem exceção, o pedido foi Confirmado ou Falhou graciosamente.
-                // Precisamos verificar o status final do pedido no DB para determinar o sucesso.
                 var finalOrder = await ctx.Orders.FindAsync(pedido.Id);
-                return finalOrder.Status == OrderStatus.Confirmed; // Retorna true se confirmado, false caso contrário
+                return finalOrder.Status == OrderStatus.Confirmed;
             }
                 catch (DbUpdateConcurrencyException) { return false; } // Expected concurrency conflict
             catch (Exception ex)
             {
-                // Exceção inesperada, re-lança para falhar o teste imediatamente
                 throw new Xunit.Sdk.XunitException($"Exceção inesperada para o pedido {pedido.Id}: {ex.Message}", ex);
             }
         });
@@ -89,7 +86,7 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
     public async Task ProcessAsync_AposConcorrencia_BancoDeveEstarConsistente()
     {
         // Arrange
-        await using var setupCtx = CriarContexto(); // Usa a conexão compartilhada
+        await using var setupCtx = CriarContexto();
 
         var evento = new Event("Concerto", "Teatro", DateTime.UtcNow.AddMonths(1), 1);
         var ticket = new Ticket(evento.Id, "PLAT01", 300m);
@@ -105,20 +102,19 @@ public class ConcurrencyTests : IClassFixture<DatabaseFixture>
  
         var tarefas = pedidos.Select(async pedido =>
         { 
-            await using var ctx = CriarContexto(); // Cada tarefa obtém seu próprio contexto, mas com a mesma conexão
+            await using var ctx = CriarContexto();
             var processor = CriarProcessor(ctx);
             try { await processor.ProcessAsync(pedido.Id); }
-            catch (DbUpdateConcurrencyException) { /* Conflito de concorrência esperado */ }
+            catch (DbUpdateConcurrencyException) { /* Expected competitive conflict */ }
             catch (Exception ex)
             {
-                // Exceção inesperada, re-lança para falhar o teste imediatamente
                 throw new Xunit.Sdk.XunitException($"Exceção inesperada para o pedido {pedido.Id}: {ex.Message}", ex);
             }
         });
         await Task.WhenAll(tarefas);
 
         // Assert
-        await using var checkCtx = CriarContexto(); // Contexto para verificar o estado final
+        await using var checkCtx = CriarContexto();
         var todosPedidos = await checkCtx.Orders.ToListAsync();
         var pagamentos   = await checkCtx.Payments.ToListAsync();
         var ticketFinal  = await checkCtx.Tickets.FindAsync(ticket.Id);

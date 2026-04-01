@@ -42,7 +42,7 @@ public class RabbitMqPublisher : IMessagePublisher, IDisposable
         var body = Encoding.UTF8.GetBytes(json);
 
         var props = _channel.CreateBasicProperties();
-        // persistent: true — mensagem sobrevive a reinicialização do RabbitMQ
+        // persistent: true — The message survives a RabbitMQ restart.
         props.Persistent = true;
 
         _channel.BasicPublish(

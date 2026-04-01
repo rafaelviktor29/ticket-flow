@@ -16,7 +16,7 @@ out/
 # VS Code
 .vscode/
 
-# Publicação
+# Publication
 publish/
 *.pubxml
 *.pubxml.user
@@ -25,16 +25,23 @@ publish/
 *.log
 logs/
 
+# Test Result
+TestResults/
+*.trx
+
+# K6 test results
+result.json
+
 # NuGet
 *.nupkg
 .nuget/
 
-# Ambiente local — nunca commitar segredos
+# Local environment — never commit secrets
 appsettings.Local.json
 appsettings.*.local.json
 appsettings.Development.json
 **Development.json
 src/TicketFlow.API/appsettings.Development.json
 
-# Docker volumes locais
+# Docker local volumes
 postgres_data/
