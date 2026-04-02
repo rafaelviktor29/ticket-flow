@@ -1,14 +1,29 @@
-# Run both API and Worker for local development
-# Usage: ./run-dev.ps1
+Write-Host "====================================="
+Write-Host " TicketFlow - Development Mode"
+Write-Host "====================================="
 
-# Start Worker as a background job
-Start-Job -Name TicketFlow.Worker -ScriptBlock { dotnet run --project src\TicketFlow.Worker } | Out-Null
-Write-Host "Worker started as background job (TicketFlow.Worker)."
+# Step 1: Start infrastructure services (PostgreSQL and RabbitMQ)
+Write-Host "Starting PostgreSQL and RabbitMQ..."
+docker compose up -d postgres rabbitmq
 
-# Start API in foreground (so logs are visible in this terminal)
-dotnet run --project src\TicketFlow.API
+# Wait a few seconds to ensure services are ready
+Start-Sleep -Seconds 5
 
-# When API exits, stop and remove the Worker job
-Get-Job -Name TicketFlow.Worker | Stop-Job -Force -ErrorAction SilentlyContinue
-Get-Job -Name TicketFlow.Worker | Remove-Job -Force -ErrorAction SilentlyContinue
-Write-Host "Worker stopped."
+# Step 2: Start API in a new terminal window
+Write-Host "Starting API..."
+Start-Process powershell -ArgumentList "dotnet run --project src/TicketFlow.API"
+
+# Small delay to ensure API starts before workers
+Start-Sleep -Seconds 3
+
+# Step 3: Start Worker in a new terminal window
+Write-Host "Starting Worker..."
+Start-Process powershell -ArgumentList "dotnet run --project src/TicketFlow.Worker"
+
+# Display useful URLs
+Write-Host ""
+Write-Host "API: http://localhost:54049"
+Write-Host "Swagger: http://localhost:54049/swagger"
+Write-Host "RabbitMQ: http://localhost:15672 (guest/guest)"
+Write-Host ""
+Write-Host "Development environment started successfully."
